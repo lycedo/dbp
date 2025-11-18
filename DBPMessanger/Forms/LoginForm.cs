@@ -13,6 +13,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Drawing.Text;
+using DBPMessanger.Managers;
 
 namespace DBPMessanger.Forms
 {
@@ -54,6 +55,8 @@ namespace DBPMessanger.Forms
                     user.Role = ROLE.USER;
                 }
 
+                OwnerUserManager.Instance.initOwerUser(user);
+                _ = WebSocketManager.Instance.Connect(Constants.Server, user.Id);
                 LoggedInUser = user; // 로그인 성공 사용자 설정
 
                 // 로그인 기록 저장 + 시간 기록

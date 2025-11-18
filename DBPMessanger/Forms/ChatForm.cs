@@ -6,6 +6,7 @@ using DBPMessanger.Managers;
 using DBPMessanger.MessageProtocol.send;
 using Microsoft.EntityFrameworkCore;
 using System.Data;
+using System.Diagnostics;
 
 
 namespace DBPMessanger.Forms
@@ -86,19 +87,29 @@ namespace DBPMessanger.Forms
             if (target == null)
                 return;
 
-            string name = "";
-            Image image = null;
+            ChatControl chat = new ChatControl(target.Name, message, dateTime, isMine, flowLayoutPanel.Width);
+            int availableWidth = flowLayoutPanel.ClientSize.Width - SystemInformation.VerticalScrollBarWidth;
 
-            if (!isMine)
+            Panel wrapper = new Panel
             {
-                name = target.Name;
-                //image = target.ProfileImage;
+                Width = availableWidth,
+                Height = chat.Height,
+                Padding = new Padding(0),
+                Margin = new Padding(0, 2, 0, 2)
+            };
+
+            if (isMine)
+            {
+                chat.Dock = DockStyle.Right;
+            }
+            else
+            {
+                chat.Dock = DockStyle.Left;
             }
 
-            ChatControl chat = new ChatControl(name, message, dateTime, isMine, image, panelChat.Width);
-
-            chat.Parent = panelChat; 
-            panelChat.Controls.SetChildIndex(chat, 0);
+            wrapper.Controls.Add(chat);
+            flowLayoutPanel.Controls.Add(wrapper);
+            flowLayoutPanel.ScrollControlIntoView(wrapper);
         }
 
 

@@ -39,6 +39,29 @@ namespace DBPMessanger.Managers
             
         }
 
+        public async Task Disconnect()
+        {
+            try
+            {
+                if (ws != null &&
+                    (ws.State == WebSocketState.Open || ws.State == WebSocketState.CloseReceived))
+                {
+                    // 서버에 종료 메시지 보내고 연결 닫기
+                    await ws.CloseAsync(WebSocketCloseStatus.NormalClosure, "Client disconnect", CancellationToken.None);
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Disconnect error: " + ex.Message);
+            }
+            finally
+            {
+                // 리소스 해제
+                ws?.Dispose();
+                ws = null;
+            }
+        }
+
         public async Task Send(SParentJSON msg)
         {
             if(ws != null && ws.State == WebSocketState.Open)
@@ -71,6 +94,11 @@ namespace DBPMessanger.Managers
                     do
                     {
                         result = await ws.ReceiveAsync(new ArraySegment<byte>(buffer), CancellationToken.None);
+                        if (result.MessageType == WebSocketMessageType.Close)
+                        {
+                            await Disconnect(); // 상대방이 닫으면 클라이언트도 종료
+                            return;
+                        }
                         ms.Write(buffer, 0, result.Count);
                     }
                     while (!result.EndOfMessage);

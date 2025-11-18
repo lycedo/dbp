@@ -17,7 +17,7 @@ namespace DBPMessanger.Config
         public DbSet<LoginLog> LoginLogs { get; set; } // 로그인 기록 테이블
 
         // 서버 연결 설정하기
-        private string connectionStr = "server=223.130.151.111;port=3306;database=s5820215;user=s5820215;password=s5820215";
+        private string connectionStr = "server=;port=3306;database=;user=;password=";
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {

@@ -191,6 +191,7 @@ namespace DBPMessanger.Forms
         private void button_logout_Click(object sender, EventArgs e)
         {
             LogoutHelper.PerformLogout();
+            _ = WebSocketManager.Instance.Disconnect();
             Close();
         }
 

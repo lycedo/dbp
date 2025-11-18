@@ -1,4 +1,6 @@
-﻿using DBPMessanger.JSON.recevie;
+﻿using DBPMessanger.Forms;
+using DBPMessanger.infos;
+using DBPMessanger.JSON.recevie;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -22,12 +24,27 @@ namespace DBPMessanger.Managers
             ChatForm? form = ChatFormManager.Instance.serachForm(msg.From);
 
             // 현재 채팅창이 대화창이라면 알람 X
-            
-                
+            if (form != null)
+                return;
 
-            // TODO
-            // 우측 하단에 알림 창 표시(userControl로 만든후 실행)
-            
+
+            if (msg.Type == Constants.Chat) 
+            {
+                var user = (DBManager.Instance.Query<UserInfo>(
+                    q => q.Where(u => u.Id == msg.From)) 
+                    ?? Enumerable.Empty<UserInfo>()).FirstOrDefault();
+
+                if (user == null) 
+                    return;
+
+                var thread = new Thread(() =>
+                {
+                    Application.Run(new AlertForm(user.Name, msg.Message));
+                });
+                thread.SetApartmentState(ApartmentState.STA); // 필수
+                thread.Start();
+            }
+
         }
     }
 }

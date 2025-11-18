@@ -12,45 +12,26 @@ namespace DBPMessanger.Controls
 {
     public partial class ChatControl : UserControl
     {
-        private string? name;
-        private string? message;
-        private bool? isMine;
-        private Image? profilePic;
-
-        public ChatControl()
-        {
-            InitializeComponent();
-        }
-
-        public ChatControl(string name, string message, DateTime dateTime ,bool isMine, Image profilePic, int width)
+        public ChatControl(string name, string message, DateTime date, bool isMine, int width)
         {
             InitializeComponent();
 
-            this.name = name;
-            this.message = message;
-            this.isMine = isMine;
-            this.profilePic = profilePic;
-
-            labelName.Text = name;
             labelMessage.Text = message;
-            labelTime.Text = dateTime.ToString("HH:mm");
-            pictureBox1.Image = profilePic;
+            
+            labelTime.Text = date.ToString("HH:mm");
 
-            labelMessage.MaximumSize = new Size((int)(width * 0.8 - 50), 0);
-
-            Dock = DockStyle.Top;
+            labelMessage.MaximumSize = new Size((int)(width * 0.7), 0);
 
             if (isMine)
             {
+                labelName.Visible = false;
                 tableLayoutPanel1.RowStyles[0].Height = 0;
-                tableLayoutPanel1.ColumnStyles[0].Width = 0;
-                RightToLeft = RightToLeft.Yes;
-
-                labelMessage.Anchor = AnchorStyles.Right;
-                labelMessage.TextAlign = ContentAlignment.BottomRight;
+                tableLayoutPanel1.RightToLeft = RightToLeft.Yes;
+                labelMessage.BackColor = Color.Yellow;
             }
             else
             {
+                labelName.Text = name;
                 labelMessage.BackColor = Color.White;
             }
         }

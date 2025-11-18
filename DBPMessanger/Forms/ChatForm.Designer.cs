@@ -29,7 +29,7 @@
         private void InitializeComponent()
         {
             splitContainerChat = new SplitContainer();
-            panelChat = new Panel();
+            flowLayoutPanel = new FlowLayoutPanel();
             labelDepartment = new Label();
             labelName = new Label();
             pictureBox1 = new PictureBox();
@@ -52,7 +52,7 @@
             // splitContainerChat.Panel1
             // 
             splitContainerChat.Panel1.BackColor = Color.White;
-            splitContainerChat.Panel1.Controls.Add(panelChat);
+            splitContainerChat.Panel1.Controls.Add(flowLayoutPanel);
             splitContainerChat.Panel1.Controls.Add(labelDepartment);
             splitContainerChat.Panel1.Controls.Add(labelName);
             splitContainerChat.Panel1.Controls.Add(pictureBox1);
@@ -65,15 +65,16 @@
             splitContainerChat.SplitterDistance = 489;
             splitContainerChat.TabIndex = 0;
             // 
-            // panelChat
+            // flowLayoutPanel
             // 
-            panelChat.AutoScroll = true;
-            panelChat.BackColor = Color.SkyBlue;
-            panelChat.ForeColor = Color.Black;
-            panelChat.Location = new Point(3, 77);
-            panelChat.Name = "panelChat";
-            panelChat.Size = new Size(365, 413);
-            panelChat.TabIndex = 4;
+            flowLayoutPanel.AutoScroll = true;
+            flowLayoutPanel.BackColor = Color.SkyBlue;
+            flowLayoutPanel.FlowDirection = FlowDirection.TopDown;
+            flowLayoutPanel.Location = new Point(3, 78);
+            flowLayoutPanel.Name = "flowLayoutPanel";
+            flowLayoutPanel.Size = new Size(365, 408);
+            flowLayoutPanel.TabIndex = 4;
+            flowLayoutPanel.WrapContents = false;
             // 
             // labelDepartment
             // 
@@ -147,6 +148,6 @@
         private Label labelDepartment;
         private Label labelName;
         private PictureBox pictureBox1;
-        private Panel panelChat;
+        private FlowLayoutPanel flowLayoutPanel;
     }
 }
